@@ -6,13 +6,19 @@ import mercadolivro.com.controller.dto.PutBookInputDto
 import mercadolivro.com.enums.BookStatus
 import mercadolivro.com.model.Book
 import mercadolivro.com.model.Customer
+import mercadolivro.com.model.CustomerStatus
 
 fun CustomerInputDTO.toCustomer() : Customer {
-    return Customer(name = this.name, email = this.email)
+    return Customer(name = this.name, email = this.email, status = CustomerStatus.ATIVO)
 }
 
-fun CustomerInputDTO.toCustomer(id: Int) : Customer {
-    return Customer(id = id, name = this.name, email = this.email)
+fun CustomerInputDTO.toCustomer(previousCustomer: Customer) : Customer {
+    return Customer(
+        id = previousCustomer.id,
+        name = this.name ?: previousCustomer.name,
+        email = this.email ?: previousCustomer.email,
+        status = previousCustomer.status
+    )
 }
 
 fun BookInputDto.toBook(customer: Customer) : Book {
