@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:8
+    container_name: market-book-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: books
+    ports:
+      - "43306:3306"
+    volumes:
+      - ./.docker/mysql:/var/lib/mysql
