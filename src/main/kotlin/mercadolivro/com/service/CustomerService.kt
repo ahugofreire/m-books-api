@@ -1,7 +1,7 @@
 package mercadolivro.com.service
 
 import mercadolivro.com.model.Customer
-import mercadolivro.com.model.CustomerStatus
+import mercadolivro.com.enums.CustomerStatus
 import mercadolivro.com.repository.CustomerRepository
 import org.springframework.stereotype.Service
 

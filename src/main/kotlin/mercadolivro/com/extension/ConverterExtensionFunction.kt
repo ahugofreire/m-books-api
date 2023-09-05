@@ -3,10 +3,12 @@ package mercadolivro.com.extension
 import mercadolivro.com.controller.dto.BookInputDto
 import mercadolivro.com.controller.dto.CustomerInputDTO
 import mercadolivro.com.controller.dto.PutBookInputDto
+import mercadolivro.com.controller.response.CustomerResponse
 import mercadolivro.com.enums.BookStatus
 import mercadolivro.com.model.Book
 import mercadolivro.com.model.Customer
-import mercadolivro.com.model.CustomerStatus
+import mercadolivro.com.enums.CustomerStatus
+import mercadolivro.com.controller.response.BookResponse
 
 fun CustomerInputDTO.toCustomer() : Customer {
     return Customer(name = this.name, email = this.email, status = CustomerStatus.ATIVO)
@@ -36,5 +38,24 @@ fun PutBookInputDto.toBook(bookPrevious: Book) : Book {
         price = this.price ?: bookPrevious.price,
         status = bookPrevious.status,
         customer = bookPrevious.customer
+    )
+}
+
+fun Customer.toResponse(): CustomerResponse {
+    return CustomerResponse(
+        id = this.id,
+        name = this.name,
+        email = this.email,
+        status = this.status
+    )
+}
+
+fun Book.toResponse(): BookResponse {
+    return BookResponse(
+        id = this.id,
+        name = this.name,
+        price = this.price,
+        customer = this.customer,
+        status = this.status
     )
 }

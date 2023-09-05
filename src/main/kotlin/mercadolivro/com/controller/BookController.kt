@@ -2,18 +2,23 @@ package mercadolivro.com.controller
 
 import mercadolivro.com.controller.dto.BookInputDto
 import mercadolivro.com.controller.dto.PutBookInputDto
+import mercadolivro.com.controller.response.BookResponse
 import mercadolivro.com.extension.toBook
-import mercadolivro.com.model.Book
+import mercadolivro.com.extension.toResponse
 import mercadolivro.com.service.BookService
 import mercadolivro.com.service.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+
 
 @RestController
 @RequestMapping("books")
 class BookController(
     var bookService: BookService,
-    var customerService: CustomerService
+    var customerService: CustomerService,
 ) {
 
     @PostMapping
@@ -24,17 +29,17 @@ class BookController(
     }
 
     @GetMapping
-    fun findAllBooks(): List<Book> {
-        return bookService.findAll()
+    fun findAllBooks(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
+        return bookService.findAll(pageable).map { it.toResponse() }
     }
 
     @GetMapping("/active")
-    fun findActives(): List<Book> {
-        return bookService.findActives()
+    fun findActives(@PageableDefault(page = 0, size = 10) pageable: Pageable): Page<BookResponse> {
+        return bookService.findActives(pageable).map { it.toResponse() }
     }
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Int): Book {
-        return bookService.findById(id)
+    fun findById(@PathVariable id: Int): BookResponse {
+        return bookService.findById(id).toResponse()
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package mercadolivro.com.model
 
 import jakarta.persistence.*
+import mercadolivro.com.enums.CustomerStatus
 
 @Entity( name = "customers")
 data class Customer (

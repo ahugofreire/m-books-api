@@ -1,8 +1,9 @@
 package mercadolivro.com.controller
 
 import mercadolivro.com.controller.dto.CustomerInputDTO
+import mercadolivro.com.controller.response.CustomerResponse
 import mercadolivro.com.extension.toCustomer
-import mercadolivro.com.model.Customer
+import mercadolivro.com.extension.toResponse
 import mercadolivro.com.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -22,8 +23,8 @@ class CustomerController(
     val customerService: CustomerService
 ) {
     @GetMapping
-    fun getCustomers(@RequestParam name: String?): List<Customer> {
-        return customerService.getCustomers(name)
+    fun getCustomers(@RequestParam name: String?): List<CustomerResponse> {
+        return customerService.getCustomers(name).map { it.toResponse() }
     }
 
     @PostMapping
@@ -33,8 +34,8 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id: Int): Customer {
-        return customerService.findCustomerById(id)
+    fun getCustomer(@PathVariable id: Int): CustomerResponse {
+        return customerService.findCustomerById(id).toResponse()
     }
 
     @PutMapping("/{id}")
