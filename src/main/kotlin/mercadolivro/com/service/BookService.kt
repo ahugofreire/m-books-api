@@ -1,6 +1,7 @@
 package mercadolivro.com.service
 
 import mercadolivro.com.enums.BookStatus
+import mercadolivro.com.exception.NotFoundException
 import mercadolivro.com.model.Book
 import mercadolivro.com.model.Customer
 import mercadolivro.com.repository.BookRepository
@@ -26,7 +27,7 @@ class BookService(
     }
 
     fun findById(id: Int): Book {
-        return bookRepository.findById(id).orElseThrow()
+        return bookRepository.findById(id).orElseThrow{ NotFoundException("Book id: [$id] not found in database", "ML-0001")}
     }
 
     fun deleteById(id: Int) {
