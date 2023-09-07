@@ -1,6 +1,5 @@
 package mercadolivro.com.validation
 
-import jakarta.validation.Constraint
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 import mercadolivro.com.service.CustomerService

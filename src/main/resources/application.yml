@@ -10,3 +10,8 @@ spring:
     password: root
   jackson:
     default-property-inclusion: non_null
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
