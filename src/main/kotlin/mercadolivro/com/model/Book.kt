@@ -2,6 +2,8 @@ package mercadolivro.com.model
 
 import jakarta.persistence.*
 import mercadolivro.com.enums.BookStatus
+import mercadolivro.com.enums.Errors
+import mercadolivro.com.exception.BadRequestException
 import java.math.BigDecimal
 
 @Entity(name = "book")
@@ -25,7 +27,7 @@ data class Book (
     var status: BookStatus? = null
         set(value) {
             if(field == BookStatus.CANCELADO || field == BookStatus.DELETADO) {
-                throw Exception("error not delete an book with status $field")
+                throw BadRequestException(Errors.ML1002.message.format(field), Errors.ML1002.code)
             }
             field = value
         }

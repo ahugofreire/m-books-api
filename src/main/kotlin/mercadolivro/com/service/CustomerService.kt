@@ -2,6 +2,7 @@ package mercadolivro.com.service
 
 import mercadolivro.com.model.Customer
 import mercadolivro.com.enums.CustomerStatus
+import mercadolivro.com.enums.Errors
 import mercadolivro.com.exception.NotFoundException
 import mercadolivro.com.repository.CustomerRepository
 import org.springframework.stereotype.Service
@@ -34,7 +35,7 @@ class CustomerService(
 
     fun findCustomerById(id: Int): Customer {
         return customerRepository.findById(id)
-            .orElseThrow{ NotFoundException("Customer id: [$id] not found in database", "ML-0002")}
+            .orElseThrow{ NotFoundException(Errors.ML1101.message.format(id), Errors.ML1101.code)}
     }
 
     fun updateCustomer(customer: Customer) {
