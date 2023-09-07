@@ -1,5 +1,6 @@
 package mercadolivro.com.controller
 
+import jakarta.validation.Valid
 import mercadolivro.com.controller.dto.CustomerInputDTO
 import mercadolivro.com.controller.response.CustomerResponse
 import mercadolivro.com.extension.toCustomer
@@ -29,7 +30,7 @@ class CustomerController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody customer: CustomerInputDTO) {
+    fun create(@RequestBody @Valid customer: CustomerInputDTO) {
         return customerService.create(customer.toCustomer())
     }
 
@@ -40,7 +41,7 @@ class CustomerController(
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateCustomer(@PathVariable id: Int, @RequestBody customer: CustomerInputDTO) {
+    fun updateCustomer(@PathVariable id: Int, @RequestBody @Valid customer: CustomerInputDTO) {
         val customerSaved = customerService.findCustomerById(id)
         return customerService.updateCustomer(customer.toCustomer(customerSaved))
     }

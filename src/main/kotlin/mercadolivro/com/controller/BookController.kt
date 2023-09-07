@@ -1,5 +1,6 @@
 package mercadolivro.com.controller
 
+import jakarta.validation.Valid
 import mercadolivro.com.controller.dto.BookInputDto
 import mercadolivro.com.controller.dto.PutBookInputDto
 import mercadolivro.com.controller.response.BookResponse
@@ -23,7 +24,7 @@ class BookController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createBook(@RequestBody request: BookInputDto) {
+    fun createBook(@RequestBody @Valid request: BookInputDto) {
         val customer = customerService.findCustomerById(request.customerId)
         bookService.create(request.toBook(customer))
     }
