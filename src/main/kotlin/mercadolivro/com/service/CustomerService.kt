@@ -3,14 +3,17 @@ package mercadolivro.com.service
 import mercadolivro.com.model.Customer
 import mercadolivro.com.enums.CustomerStatus
 import mercadolivro.com.enums.Errors
+import mercadolivro.com.enums.Role
 import mercadolivro.com.exception.NotFoundException
 import mercadolivro.com.repository.CustomerRepository
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    var customerRepository: CustomerRepository,
-    var bookService: BookService
+    private var customerRepository: CustomerRepository,
+    private var bookService: BookService,
+    private val bCrypt: BCryptPasswordEncoder
 ) {
 
     fun getCustomers(name: String?): List<Customer> {
@@ -20,17 +23,13 @@ class CustomerService(
         return customerRepository.findAll().toList()
     }
     fun create (customer: Customer) {
-        customerRepository.save(customer)
+        val customerCopy = customer.copy(
+            roles = setOf(Role.CUSTOMER),
+            password = bCrypt.encode(customer.password)
+        )
 
-//        val id = if(customers.isEmpty()) {
-//            1
-//        } else {
-//            customers.last().id!!.toInt() + 1
-//        }
-//
-//        customer.id = id
-//        customers.add(customer)
-//        return
+        customerRepository.save(customerCopy)
+
     }
 
     fun findCustomerById(id: Int): Customer {

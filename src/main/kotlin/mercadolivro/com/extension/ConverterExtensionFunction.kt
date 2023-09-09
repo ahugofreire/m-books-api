@@ -11,7 +11,7 @@ import mercadolivro.com.enums.CustomerStatus
 import mercadolivro.com.controller.response.BookResponse
 
 fun CustomerInputDTO.toCustomer() : Customer {
-    return Customer(name = this.name, email = this.email, status = CustomerStatus.ATIVO)
+    return Customer(name = this.name, email = this.email, password = this.password, status = CustomerStatus.ATIVO)
 }
 
 fun CustomerInputDTO.toCustomer(previousCustomer: Customer) : Customer {
@@ -19,6 +19,7 @@ fun CustomerInputDTO.toCustomer(previousCustomer: Customer) : Customer {
         id = previousCustomer.id,
         name = this.name ?: previousCustomer.name,
         email = this.email ?: previousCustomer.email,
+        password = this.password ?: previousCustomer.password,
         status = previousCustomer.status
     )
 }
