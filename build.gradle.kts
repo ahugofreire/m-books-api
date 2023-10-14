@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("io.jsonwebtoken:jjwt:0.12.2")
 
 //	implementation("io.springfox:springfox-swagger2:3.0.0")
 //	implementation("io.springfox:springfox-swagger-ui:3.0.0")

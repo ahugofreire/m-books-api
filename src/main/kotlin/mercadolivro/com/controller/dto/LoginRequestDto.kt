@@ -1,6 +1,6 @@
 package mercadolivro.com.controller.dto
 
 data class LoginRequestDto (
-    val email: String,
+    val username: String,
     val password: String
 )

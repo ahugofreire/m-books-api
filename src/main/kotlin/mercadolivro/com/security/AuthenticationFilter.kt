@@ -13,14 +13,15 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 class AuthenticationFilter(
-    authenticationManager: AuthenticationManager,
-    private val customerRepository: CustomerRepository
-) : UsernamePasswordAuthenticationFilter() {
+   authenticationManager: AuthenticationManager,
+    private val customerRepository: CustomerRepository,
+    private val jwtUtil: JwtUtil,
+) : UsernamePasswordAuthenticationFilter(authenticationManager) {
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
 
         try {
             val loginRequest = jacksonObjectMapper().readValue(request.inputStream, LoginRequestDto::class.java)
-            val customerId = customerRepository.findByEmail(loginRequest.email)?.id
+            val customerId = customerRepository.findByEmail(loginRequest.username)?.id
             val authToken = UsernamePasswordAuthenticationToken(customerId, loginRequest.password)
             return authenticationManager.authenticate(authToken)
         } catch (ex: Exception) {
@@ -34,7 +35,8 @@ class AuthenticationFilter(
         chain: FilterChain,
         authResult: Authentication
     ) {
-        val id = (authResult as UserCustomDetails).id
-        response.addHeader("Authorization", "123456")
+        val id = (authResult.principal as UserCustomDetails).id
+        val token = jwtUtil.generateToken(id)
+        response.addHeader("Authorization", "Bearer $token")
     }
 }
